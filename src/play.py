@@ -33,14 +33,17 @@ def automatic(round_max=None):
             target = rd.choice(potential_targets)
 
             print(f"⚔️ {attacker['name']} menyerang {target['name']} ⚔️")
-            #Gacha berlindung atau tidak
-            berlindung = rd.choice([True, False])
-            if berlindung:
-                print(f"🛡️ {target['name']} memilih berlindung! 🛡️")
-                g.setPlayer(target, "defense", True)
-                defended_players.append(target["name"])
+            # Gacha berlindung atau tidak
+            if target["defensePower"] > 0:
+                berlindung = rd.choice([True, False])
+                if berlindung:
+                    print(f"🛡️ {target['name']} memilih berlindung! 🛡️")
+                    g.setPlayer(target, "defense", True)
+                    defended_players.append(target["name"])
+                else:
+                    print(f"❌ {target['name']} tidak berlindung! ❌")
             else:
-                print(f"❌ {target['name']} tidak berlindung! ❌")
+                print(f"❌ {target['name']} tidak bisa berlindung karena defense power 0! ❌")
 
             # Serang target
             g.attackPlayer(attacker, target)
@@ -74,12 +77,15 @@ def manual(round_max=None):
 
         # Pilih bertahan atau tidak
         print(f"⚔️ {attacker['name']} menyerang {target['name']} ⚔️")
-        berlindung = input("Masukkan 'y' untuk bertahan atau 'n' untuk tidak: ").lower()
-        if berlindung == 'y':
-            print(f"🛡️ {target['name']} memilih berlindung! 🛡️")
-            g.setPlayer(target, "defense", True)
+        if target["defensePower"] > 0:
+            berlindung = input("Masukkan 'y' untuk bertahan atau 'n' untuk tidak: ").lower()
+            if berlindung == 'y':
+                print(f"🛡️ {target['name']} memilih berlindung! 🛡️")
+                g.setPlayer(target, "defense", True)
+            else:
+                print(f"❌ {target['name']} tidak berlindung! ❌")
         else:
-            print(f"❌ {target['name']} tidak berlindung! ❌")
+            print(f"❌ {target['name']} tidak bisa berlindung karena defense power 0! ❌")
 
         # Serang target
         g.attackPlayer(attacker, target)
@@ -94,28 +100,28 @@ def manual(round_max=None):
 
 initialize_players()
 
-# print("--Pilih Otomatis atau Manual--")
-# print("1. Otomatis")
-# print("2. Manual")
+print("--Pilih Otomatis atau Manual--")
+print("1. Otomatis")
+print("2. Manual")
 
-# pilih = int(input("Masukkan pilihan: "))
-# if pilih == 1:
-#     print("Pilih mode")
-#     print("1. Round Terbatas")
-#     print("2. Battle Royale")
-#     mode = int(input("Masukkan mode: "))
-#     if mode == 1:
-#         round_max = int(input("Masukkan jumlah maksimal round: "))
-#         automatic(round_max)
-#     elif mode == 2:
-#         automatic()
-# elif pilih == 2:
-#     print("Pilih mode")
-#     print("1. Round Terbatas")
-#     print("2. Battle Royale")
-#     mode = int(input("Masukkan mode: "))
-#     if mode == 1:
-#         round_max = int(input("Masukkan jumlah maksimal round: "))
-#         manual(round_max)
-#     elif mode == 2:
-#         manual()
+pilih = int(input("Masukkan pilihan: "))
+if pilih == 1:
+    print("Pilih mode")
+    print("1. Round Terbatas")
+    print("2. Battle Royale")
+    mode = int(input("Masukkan mode: "))
+    if mode == 1:
+        round_max = int(input("Masukkan jumlah maksimal round: "))
+        automatic(round_max)
+    elif mode == 2:
+        automatic()
+elif pilih == 2:
+    print("Pilih mode")
+    print("1. Round Terbatas")
+    print("2. Battle Royale")
+    mode = int(input("Masukkan mode: "))
+    if mode == 1:
+        round_max = int(input("Masukkan jumlah maksimal round: "))
+        manual(round_max)
+    elif mode == 2:
+        manual()
