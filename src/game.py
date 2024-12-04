@@ -37,8 +37,10 @@ def attackPlayer(attacker: dict, target: dict):
     damage = attacker['damage']
     if target['defense'] == True:
         damage -= target['defensePower']
-        setPlayer(attacker, 'score', attacker['score'] + 0.8)
+        attackscore = round(attacker['score'] + 1 - 1 / target['defensePower'], 2)
+        setPlayer(attacker, 'score', attackscore)
     else:
+        attackscore = round(attacker['score'] + 1 - 1 / target['defensePower'], 2)
         setPlayer(attacker, 'score', attacker['score'] + 1)
     if damage < 0:
         damage = 0
